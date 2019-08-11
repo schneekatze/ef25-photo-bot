@@ -1,0 +1,3 @@
+index:
+    path: /webhook
+    controller: App\Presentation\Http\Controller\WebhookController::index
