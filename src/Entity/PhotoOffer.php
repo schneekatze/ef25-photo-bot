@@ -16,6 +16,7 @@ class PhotoOffer
     const STATE_NEW = 'new';
     const STATE_INIT = 'init';
     const STATE_DESCRIPTION = 'description';
+    const STATE_DATE = 'date';
     const STATE_TIME = 'time';
     const STATE_LOCATION = 'location';
     const STATE_PRICE = 'price';

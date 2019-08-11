@@ -141,18 +141,18 @@ class AgendaManager implements ManagerInterface
                         $text = '';
                     }
                 }
-
-                return null;
+            } else {
+                $text = 'No offers yet specifically on ' . $userMessage->getText() . '. Try another option!';
             }
-
-            $text = 'No offers yet specifically on ' . $userMessage->getText() . '. Try another option!';
         }
 
-        $telegramClient->sendMessage(
-            $userMessage->getChatId(),
-            $text,
-            $collection
-        );
+        if ($text !== '') {
+            $telegramClient->sendMessage(
+                $userMessage->getChatId(),
+                $text,
+                $collection
+            );
+        }
 
         return null;
     }

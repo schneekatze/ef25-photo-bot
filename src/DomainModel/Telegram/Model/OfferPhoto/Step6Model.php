@@ -6,7 +6,7 @@ use App\DomainModel\Telegram\Model\ModelInterface;
 use App\DomainModel\Telegram\Model\ViewOfferModel;
 use App\Entity\PhotoOffer;
 
-class Step5Model implements ModelInterface
+class Step6Model implements ModelInterface
 {
     /**
      * @var PhotoOffer
@@ -20,7 +20,7 @@ class Step5Model implements ModelInterface
 
     public function render(): string
     {
-        $text = "Offer a photo. Step *5* of *5*\nAlmost there! Please confirm that everything's fine, click the \"Publish!\" and I'll do so right after.";
+        $text = "Offer a photo. Step *6* of *6*\nAlmost there! Please confirm that everything's fine, click the \"Publish!\" and I'll do so right after.";
         $text .= "\n\n";
 
         $text .= (new ViewOfferModel($this->offer))->render();

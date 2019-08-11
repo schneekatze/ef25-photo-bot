@@ -37,7 +37,7 @@ class ListMyOffersManager implements ManagerInterface
      */
     public function invoke(AbstractUserMessage $userMessage, ClientInterface $telegramClient): ?string
     {
-        if ($userMessage->getText() === 'Back.' || $userMessage->getText() === '/back') {
+        if ($userMessage->getText() === 'Back.') {
             return ManagerInterface::SCREEN_AG_PHOTOGRAPHERS;
         }
 
@@ -74,7 +74,7 @@ class ListMyOffersManager implements ManagerInterface
         }
 
         $text = '';
-        $collection = new KeyboardCollection();
+        $collection = new KeyboardCollection(['Back.']);
 
         if ($offers->count() > 0) {
             $text = 'Here is a list of your current offers. Send me /back if you want get back.'."\n\n";
@@ -111,7 +111,6 @@ class ListMyOffersManager implements ManagerInterface
             $text .= "\n";
         } else {
             $text = "You didn't add any offers yet.";
-            $collection->add('Back.');
         }
 
         if ($text !== '') {
