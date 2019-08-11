@@ -103,7 +103,7 @@ class AgendaManager implements ManagerInterface
                 foreach ($offers as $i => $offer) {
                     $j = $i + 1;
                     $text .= "📤 Offer $j of {$offers->count()}\n"
-                        .(new ViewOfferModel($offer, $offer->getUsername() === $userMessage->getUserName()))->render()
+                        .(new ViewOfferModel($offer))->render()
                         ."\n\n\n";
 
                     if ($offer->getPhoto() !== null) {

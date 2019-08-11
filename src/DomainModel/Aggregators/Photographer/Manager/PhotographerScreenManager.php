@@ -39,6 +39,10 @@ class PhotographerScreenManager implements ManagerInterface
             return ManagerInterface::SCREEN_DASHBOARD;
         }
 
+        if ($userMessage->getText() === PhotographerKeyboardCollection::FIND_PEOPLE) {
+            return ManagerInterface::SCREEN_LIST_SEEKERS;
+        }
+
         $telegramClient->sendMessage(
             $userMessage->getChatId(),
             "👋Hello fellow photographer! What would you like me to do for you?",

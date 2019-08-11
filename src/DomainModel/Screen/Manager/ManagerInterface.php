@@ -16,7 +16,7 @@ interface ManagerInterface
 
     const SCREEN_ASK_PHOTO = 'AskPhoto';
     const SCREEN_SHOW_MY_SEARCHES = 'PhotoSearches';
-    const SCREEN_LSIT_SEEKERS = 'ListSeekers';
+    const SCREEN_LIST_SEEKERS = 'ListSeekers';
 
     const SCREEN_AG_PHOTOGRAPHERS = 'Photographers';
     const SCREEN_AG_SEEKERS = 'Seekers';

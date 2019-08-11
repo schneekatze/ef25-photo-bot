@@ -8,6 +8,7 @@ use App\DomainModel\Aggregators\Subject\Manager\SubjectScreenManager;
 use App\DomainModel\Help\Manager\HelpManager;
 use App\DomainModel\ListMyOffers\Manager\ListMyOffersManager;
 use App\DomainModel\ListMyRequests\Manager\ListMyRequestsManager;
+use App\DomainModel\ListSeekers\Manager\ListSeekersManager;
 use App\DomainModel\OfferPhoto\Manager\OfferPhotoManager;
 use App\DomainModel\RequestPhoto\Manager\RequestPhotoManager;
 use App\DomainModel\Screen\Repository\ScreenRepositoryInterface;
@@ -33,7 +34,8 @@ class ScreenManager
         PhotographerScreenManager $photographerScreenManager,
         SubjectScreenManager $subjectScreenManager,
         RequestPhotoManager $requestPhotoManager,
-        ListMyRequestsManager $listMyRequestsManager
+        ListMyRequestsManager $listMyRequestsManager,
+        ListSeekersManager $listSeekersManager
     ) {
         $this->screenRepository = $screenRepository;
 
@@ -47,6 +49,7 @@ class ScreenManager
             ManagerInterface::SCREEN_AG_SEEKERS => $subjectScreenManager,
             ManagerInterface::SCREEN_ASK_PHOTO => $requestPhotoManager,
             ManagerInterface::SCREEN_SHOW_MY_SEARCHES => $listMyRequestsManager,
+            ManagerInterface::SCREEN_LIST_SEEKERS => $listSeekersManager,
         ];
     }
 

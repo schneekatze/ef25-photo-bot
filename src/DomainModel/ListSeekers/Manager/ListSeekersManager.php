@@ -2,7 +2,6 @@
 
 namespace App\DomainModel\ListSeekers\Manager;
 
-use App\DomainModel\OfferPhoto\Repository\OfferPhotoRepositoryInterface;
 use App\DomainModel\RequestPhoto\Repository\RequestPhotoRepositoryInterface;
 use App\DomainModel\Screen\Manager\ManagerInterface;
 use App\DomainModel\Screen\Repository\ScreenRepositoryInterface;
@@ -11,7 +10,6 @@ use App\DomainModel\Screen\ValueObject\TextUserMessage;
 use App\DomainModel\Telegram\Client\ClientInterface;
 use App\DomainModel\Telegram\Collection\KeyboardCollection;
 use App\DomainModel\Telegram\Model\PhotoRequestModel;
-use App\DomainModel\Telegram\Model\ViewOfferModel;
 use App\Entity\PhotoRequest;
 use Longman\TelegramBot\ChatAction;
 
@@ -46,17 +44,17 @@ class ListSeekersManager implements ManagerInterface
 
         $requests = $this->requestPhotoRepository->findAll();
         $text = '';
-        $collection = new KeyboardCollection();
+        $collection = new KeyboardCollection(['Back']);
 
         if ($requests->count() > 0) {
-            $text = 'Here is a list of your current requests. Send me /back if you want get back.'."\n\n";
+            $text = 'Here is a list of your current requests'."\n\n";
             /**
              * @var PhotoRequest $request
              */
             foreach ($requests as $i => $request) {
                 $j = $i+1;
                 $text .= "📥 Request $j of {$requests->count()}\n"
-                    . (new PhotoRequestModel($request, true))->render()
+                    . (new PhotoRequestModel($request))->render()
                     . "\n\n\n"
                 ;
 
@@ -85,8 +83,8 @@ class ListSeekersManager implements ManagerInterface
 
             $text .= "\n";
         } else {
-            $text = "You didn't request any photos yet.";
-            $collection->add('Back.');
+            $text = "No photo requests yet.";
+            $collection->add('Back');
         }
 
         if ($text !== '') {
@@ -96,8 +94,6 @@ class ListSeekersManager implements ManagerInterface
                 $collection
             );
         }
-
-        return null;
 
         return null;
     }
@@ -113,6 +109,6 @@ class ListSeekersManager implements ManagerInterface
 
     public static function getScreenName(): string
     {
-        return self::SCREEN_LSIT_SEEKERS;
+        return self::SCREEN_LIST_SEEKERS;
     }
 }

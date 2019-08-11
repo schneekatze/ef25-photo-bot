@@ -36,8 +36,7 @@ EDIT;
         }
 
         return <<<MODEL
-*Subject$you*
-@{$this->entity->getUsername()}
+*@{$this->entity->getUsername()}* asks for a 📷photo
 *Description*
 {$this->entity->getDescription()}
 {$editBlock}
