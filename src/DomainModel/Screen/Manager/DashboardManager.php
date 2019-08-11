@@ -61,7 +61,7 @@ class DashboardManager implements ManagerInterface
             . ($offerQuantity > 1 ? 's' : '')
             . " from photographer"
             . ($offerQuantity > 1 ? 's' : '')
-            ."! You can find it by clicking \"Show me Agenda.\" 😉";
+            ."! You can find those by clicking \"Show me Agenda.\" 😉";
         }
 
         $telegramClient->sendMessage(
