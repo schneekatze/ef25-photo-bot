@@ -4,6 +4,7 @@ namespace App\Infrastructure\OfferPhoto\Repository;
 
 use App\DomainModel\OfferPhoto\Repository\OfferPhotoRepositoryInterface;
 use App\Entity\PhotoOffer;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -58,5 +59,35 @@ class OfferPhotoRepository implements OfferPhotoRepositoryInterface
         $this->entityManager->flush();
 
         return $photoOffer;
+    }
+
+    public function count(): int
+    {
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+
+        $queryBuilder->select($queryBuilder->expr()->count('o'))
+            ->from(PhotoOffer::class, 'o')
+            ->where('o.state = ?1')
+            ->setParameter(1, PhotoOffer::STATE_COMPLETE);
+
+        $query = $queryBuilder->getQuery();
+
+        return $query->getSingleScalarResult();
+    }
+
+    public function findInInterval(int $from, int $to): Collection
+    {
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+
+        $queryBuilder->select('o')
+            ->from(PhotoOffer::class, 'o')
+            ->where('o.time >= ?1')
+            ->andWhere('o.time <= ?2')
+            ->setParameter(1, $from)
+            ->setParameter(2, $to);
+
+        return new ArrayCollection(
+            $queryBuilder->getQuery()->getResult()
+        );
     }
 }

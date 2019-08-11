@@ -83,7 +83,7 @@ class ListMyRequestsManager implements ManagerInterface
              */
             foreach ($requests as $i => $request) {
                 $j = $i+1;
-                $text .= "📤 Request $j of {$requests->count()}\n"
+                $text .= "📥 Request $j of {$requests->count()}\n"
                     . (new PhotoRequestModel($request, true))->render()
                     . "\n\n\n"
                 ;
