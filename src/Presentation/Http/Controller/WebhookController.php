@@ -5,6 +5,7 @@ namespace App\Presentation\Http\Controller;
 use App\DomainModel\Screen\Collection\DashboardKeyboardCollection;
 use App\DomainModel\Screen\Manager\ScreenManager;
 use App\DomainModel\Screen\ValueObject\AbstractUserMessage;
+use App\DomainModel\Screen\ValueObject\PhotoUserMessage;
 use App\DomainModel\Screen\ValueObject\TextUserMessage;
 use App\DomainModel\Telegram\Client\ClientInterface;
 use App\DomainModel\Telegram\Collection\KeyboardCollection;
@@ -70,6 +71,13 @@ class WebhookController
             return (new TextUserMessage(
                 $inputData['message']['chat']['id'], $inputData['message']['from']['username']
             ))->setText($inputData['message']['text']);
+        }
+
+        if (array_key_exists('photo', $inputData['message'])) {
+            return (new PhotoUserMessage(
+                $inputData['message']['chat']['id'], $inputData['message']['from']['username']
+            ))->setText($inputData['message']['caption'])
+              ->setPhoto($inputData['message']['photo'][1]['file_id']);
         }
 
         throw new MessageTypeUnknownException($inputData['message']['chat']['id']);

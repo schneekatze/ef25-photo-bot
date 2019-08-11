@@ -62,7 +62,10 @@ class Client implements ClientInterface
 
     public function sendPhoto(int $chatId, string $message, KeyboardCollection $keyboardCollection)
     {
-        // TODO: Implement sendPhoto() method.
+        return Request::sendPhoto([
+            'chat_id' => $chatId,
+            'photo'   => $message,
+        ]);
     }
 
     public function setWebhook(string $hook): ServerResponse

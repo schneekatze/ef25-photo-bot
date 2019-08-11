@@ -78,12 +78,30 @@ class ListMyRequestsManager implements ManagerInterface
 
         if ($requests->count() > 0) {
             $text = 'Here is a list of your current requests. Send me /back if you want get back.'."\n\n";
+            /**
+             * @var PhotoRequest $request
+             */
             foreach ($requests as $i => $request) {
                 $j = $i+1;
                 $text .= "📤 Request $j of {$requests->count()}\n"
                     . (new PhotoRequestModel($request, true))->render()
                     . "\n\n\n"
                 ;
+
+                if ($request->getPhoto() !== null) {
+                    $telegramClient->sendMessage(
+                        $userMessage->getChatId(),
+                        $text,
+                        $collection
+                    );
+                    $telegramClient->sendPhoto(
+                        $userMessage->getChatId(),
+                        $request->getPhoto(),
+                        $collection
+                    );
+
+                    $text = '';
+                }
             }
 
             $text .= "\n";

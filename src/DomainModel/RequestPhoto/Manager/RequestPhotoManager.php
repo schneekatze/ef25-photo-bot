@@ -6,6 +6,7 @@ use App\DomainModel\RequestPhoto\Repository\RequestPhotoRepositoryInterface;
 use App\DomainModel\Screen\Manager\ManagerInterface;
 use App\DomainModel\Screen\Repository\ScreenRepositoryInterface;
 use App\DomainModel\Screen\ValueObject\AbstractUserMessage;
+use App\DomainModel\Screen\ValueObject\PhotoUserMessage;
 use App\DomainModel\Screen\ValueObject\TextUserMessage;
 use App\DomainModel\Telegram\Client\ClientInterface;
 use App\DomainModel\Telegram\Collection\KeyboardCollection;
@@ -68,7 +69,7 @@ class RequestPhotoManager implements ManagerInterface
             $telegramClient->sendMessage(
                 $userMessage->getChatId(),
                 "Request a photo. Step *1* of *2*\n\n
-                Perfect! What photo would you like to be taken? Briefly explain your idea here :)",
+                Perfect! What photo would you like to be taken? Briefly explain your idea here :) You can also send me a photo with description!",
                 new KeyboardCollection([])
             );
 
@@ -81,6 +82,11 @@ class RequestPhotoManager implements ManagerInterface
         if ($photoRequest->getState() === PhotoRequest::STATE_DESCRIPTION) {
             $photoRequest->setState(PhotoRequest::STATE_CONFIRMATION)
                 ->setDescription($userMessage->getText());
+
+            if ($userMessage instanceof PhotoUserMessage) {
+                $photoRequest->setPhoto($userMessage->getPhoto());
+            }
+
             $this->requestPhotoRepository->save($photoRequest);
 
             $telegramClient->sendMessage(
