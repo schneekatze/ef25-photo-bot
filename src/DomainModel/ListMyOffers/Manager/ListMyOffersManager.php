@@ -11,6 +11,7 @@ use App\DomainModel\Telegram\Client\ClientInterface;
 use App\DomainModel\Telegram\Collection\KeyboardCollection;
 use App\DomainModel\Telegram\Model\ViewOfferModel;
 use App\Entity\PhotoOffer;
+use Longman\TelegramBot\ChatAction;
 
 class ListMyOffersManager implements ManagerInterface
 {
@@ -37,9 +38,11 @@ class ListMyOffersManager implements ManagerInterface
      */
     public function invoke(AbstractUserMessage $userMessage, ClientInterface $telegramClient): ?string
     {
-        if ($userMessage->getText() === 'Back.') {
+        if ($userMessage->getText() === 'Back') {
             return ManagerInterface::SCREEN_AG_PHOTOGRAPHERS;
         }
+
+        $collection = new KeyboardCollection(['Back']);
 
         $offers = $this->offerPhotoRepository->findPhotoOffersByUsername($userMessage->getUserName());
 
@@ -58,7 +61,7 @@ class ListMyOffersManager implements ManagerInterface
                 $telegramClient->sendMessage(
                     $userMessage->getChatId(),
                     'Oki, deleted the offer `' . $code . '`.',
-                    new KeyboardCollection()
+                    $collection
                 );
 
                 return null;
@@ -67,14 +70,13 @@ class ListMyOffersManager implements ManagerInterface
             $telegramClient->sendMessage(
                 $userMessage->getChatId(),
                 'Oh, I did not find the offer `' . $code . '`. Maybe you already deleted it?',
-                new KeyboardCollection()
+                $collection
             );
 
             return null;
         }
 
         $text = '';
-        $collection = new KeyboardCollection(['Back.']);
 
         if ($offers->count() > 0) {
             $text = 'Here is a list of your current offers. Send me /back if you want get back.'."\n\n";

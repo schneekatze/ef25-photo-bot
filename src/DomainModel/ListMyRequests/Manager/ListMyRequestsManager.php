@@ -38,9 +38,11 @@ class ListMyRequestsManager implements ManagerInterface
      */
     public function invoke(AbstractUserMessage $userMessage, ClientInterface $telegramClient): ?string
     {
-        if ($userMessage->getText() === 'Back.' || $userMessage->getText() === '/back') {
+        if ($userMessage->getText() === 'Back' || $userMessage->getText() === '/back') {
             return ManagerInterface::SCREEN_AG_SEEKERS;
         }
+
+        $collection = new KeyboardCollection(['Back']);
 
         $requests = $this->requestPhotoRepository->findByUsername($userMessage->getUserName());
 
@@ -59,7 +61,7 @@ class ListMyRequestsManager implements ManagerInterface
                 $telegramClient->sendMessage(
                     $userMessage->getChatId(),
                     'Oki, deleted the request `' . $code . '`.',
-                    new KeyboardCollection()
+                    $collection
                 );
 
                 return null;
@@ -68,14 +70,13 @@ class ListMyRequestsManager implements ManagerInterface
             $telegramClient->sendMessage(
                 $userMessage->getChatId(),
                 'Oh, I did not find the request `' . $code . '`. Maybe you already deleted it?',
-                new KeyboardCollection()
+                $collection
             );
 
             return null;
         }
 
         $text = '';
-        $collection = new KeyboardCollection();
 
         if ($requests->count() > 0) {
             $text = 'Here is a list of your current requests. Send me /back if you want get back.'."\n\n";
@@ -115,7 +116,6 @@ class ListMyRequestsManager implements ManagerInterface
             $text .= "\n";
         } else {
             $text = "You didn't request any photos yet.";
-            $collection->add('Back.');
         }
 
         if ($text !== '') {

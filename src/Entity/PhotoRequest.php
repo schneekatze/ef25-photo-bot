@@ -73,7 +73,7 @@ class PhotoRequest
 
     public function __construct()
     {
-        $this->code = (new Random())->getRandomString(6);
+        $this->code = (new Random())->getRandomString(6, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789');
     }
 
     /**

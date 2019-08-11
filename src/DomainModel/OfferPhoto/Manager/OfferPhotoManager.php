@@ -139,8 +139,24 @@ class OfferPhotoManager implements ManagerInterface
                 return null;
             }
 
-            $offerPhoto->setState(PhotoOffer::STATE_TIME)
-                ->setTime($dateTimeMap[$userMessage->getText()]);
+            if ($userMessage->getText() === 'Any day') {
+                $offerPhoto->setState(PhotoOffer::STATE_LOCATION);
+                $offerPhoto->setTime($dateTimeMap[$userMessage->getText()]);
+                $this->offerPhotoRepository->savePhotoOffer($offerPhoto);
+
+                $telegramClient->sendMessage(
+                    $userMessage->getChatId(),
+                    "Offer a photo. Step *4* of *6*\n\n
+                    Okay. And where would you like the action to take place?
+                    ",
+                    new KeyboardCollection([])
+                );
+
+                return null;
+            }
+
+            $offerPhoto->setState(PhotoOffer::STATE_TIME);
+            $offerPhoto->setTime($dateTimeMap[$userMessage->getText()]);
             $this->offerPhotoRepository->savePhotoOffer($offerPhoto);
 
             $telegramClient->sendMessage(
