@@ -84,6 +84,21 @@ class ListMyOffersManager implements ManagerInterface
                     . (new ViewOfferModel($offer, true))->render()
                     . "\n\n\n"
                 ;
+
+                if ($offer->getPhoto() !== null) {
+                    $telegramClient->sendMessage(
+                        $userMessage->getChatId(),
+                        $text,
+                        $collection
+                    );
+                    $telegramClient->sendPhoto(
+                        $userMessage->getChatId(),
+                        $offer->getPhoto(),
+                        $collection
+                    );
+
+                    $text = '';
+                }
             }
 
             $text .= "\n";
@@ -92,11 +107,13 @@ class ListMyOffersManager implements ManagerInterface
             $collection->add('Back.');
         }
 
-        $telegramClient->sendMessage(
-            $userMessage->getChatId(),
-            $text,
-            $collection
-        );
+        if ($text !== '') {
+            $telegramClient->sendMessage(
+                $userMessage->getChatId(),
+                $text,
+                $collection
+            );
+        }
 
         return null;
     }

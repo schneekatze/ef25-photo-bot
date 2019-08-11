@@ -110,11 +110,13 @@ class ListMyRequestsManager implements ManagerInterface
             $collection->add('Back.');
         }
 
-        $telegramClient->sendMessage(
-            $userMessage->getChatId(),
-            $text,
-            $collection
-        );
+        if ($text !== '') {
+            $telegramClient->sendMessage(
+                $userMessage->getChatId(),
+                $text,
+                $collection
+            );
+        }
 
         return null;
     }

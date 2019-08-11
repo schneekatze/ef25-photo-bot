@@ -6,6 +6,7 @@ use App\DomainModel\OfferPhoto\Repository\OfferPhotoRepositoryInterface;
 use App\DomainModel\Screen\Manager\ManagerInterface;
 use App\DomainModel\Screen\Repository\ScreenRepositoryInterface;
 use App\DomainModel\Screen\ValueObject\AbstractUserMessage;
+use App\DomainModel\Screen\ValueObject\PhotoUserMessage;
 use App\DomainModel\Screen\ValueObject\TextUserMessage;
 use App\DomainModel\Telegram\Client\ClientInterface;
 use App\DomainModel\Telegram\Collection\KeyboardCollection;
@@ -68,7 +69,7 @@ class OfferPhotoManager implements ManagerInterface
             $telegramClient->sendMessage(
                 $userMessage->getChatId(),
                 "Offer a photo. Step *1* of *5*\n\n
-                Perfect! Put your event description here.",
+                Perfect! Put your event description here. You can send me a photo with description too!",
                 new KeyboardCollection([])
             );
 
@@ -81,6 +82,12 @@ class OfferPhotoManager implements ManagerInterface
         if ($offerPhoto->getState() === PhotoOffer::STATE_DESCRIPTION) {
             $offerPhoto->setState(PhotoOffer::STATE_TIME)
                 ->setDescription($userMessage->getText());
+
+
+            if ($userMessage instanceof PhotoUserMessage) {
+                $offerPhoto->setPhoto($userMessage->getPhoto());
+            }
+
             $this->offerPhotoRepository->savePhotoOffer($offerPhoto);
 
             $telegramClient->sendMessage(

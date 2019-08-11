@@ -9,8 +9,8 @@ interface ClientInterface
 {
     public function sendMessage(int $chatId, string $message, KeyboardCollection $keyboardCollection);
     public function sendPhoto(int $chatId, string $message, KeyboardCollection $keyboardCollection);
+    public function sendChatAction(int $chatId, string $action);
 
     public function setWebhook(string $hook): ServerResponse;
     public function unsetWebhook(): ServerResponse;
-    public function handle();
 }

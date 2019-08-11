@@ -78,8 +78,11 @@ class Client implements ClientInterface
         return $this->telegram->deleteWebhook();
     }
 
-    public function handle()
+    public function sendChatAction(int $chatId, string $action)
     {
-        $this->telegram->handle();
+        return Request::sendChatAction([
+            'chat_id' => $chatId,
+            'action'  => $action,
+        ]);
     }
 }
