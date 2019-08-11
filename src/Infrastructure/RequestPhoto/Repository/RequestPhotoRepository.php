@@ -3,7 +3,9 @@
 namespace App\Infrastructure\RequestPhoto\Repository;
 
 use App\DomainModel\RequestPhoto\Repository\RequestPhotoRepositoryInterface;
+use App\Entity\PhotoOffer;
 use App\Entity\PhotoRequest;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -58,5 +60,19 @@ class RequestPhotoRepository implements RequestPhotoRepositoryInterface
         $this->entityManager->flush();
 
         return $photoRequest;
+    }
+
+    public function findAll(): Collection
+    {
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+
+        $queryBuilder->select('o')
+            ->from(PhotoRequest::class, 'o')
+            ->andWhere('o.state = ?1')
+            ->setParameter(1, PhotoRequest::STATE_COMPLETE);
+
+        return new ArrayCollection(
+            $queryBuilder->getQuery()->getResult()
+        );
     }
 }

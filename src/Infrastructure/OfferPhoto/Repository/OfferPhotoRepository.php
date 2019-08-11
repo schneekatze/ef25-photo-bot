@@ -83,8 +83,10 @@ class OfferPhotoRepository implements OfferPhotoRepositoryInterface
             ->from(PhotoOffer::class, 'o')
             ->where('o.time >= ?1')
             ->andWhere('o.time <= ?2')
+            ->andWhere('o.state = ?3')
             ->setParameter(1, $from)
-            ->setParameter(2, $to);
+            ->setParameter(2, $to)
+            ->setParameter(3, PhotoOffer::STATE_COMPLETE);
 
         return new ArrayCollection(
             $queryBuilder->getQuery()->getResult()

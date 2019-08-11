@@ -11,7 +11,6 @@ use App\DomainModel\Telegram\Client\ClientInterface;
 use App\DomainModel\Telegram\Collection\KeyboardCollection;
 use App\DomainModel\Telegram\Model\ViewOfferModel;
 use Longman\TelegramBot\ChatAction;
-use Longman\TelegramBot\Telegram;
 
 class AgendaManager implements ManagerInterface
 {

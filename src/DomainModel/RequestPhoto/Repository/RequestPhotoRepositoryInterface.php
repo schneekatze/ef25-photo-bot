@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 
 interface RequestPhotoRepositoryInterface
 {
+    public function findAll(): Collection;
     public function find(string $userName): PhotoRequest;
     public function findByUsername(string $userName): Collection;
     public function save(PhotoRequest $photoRequest): PhotoRequest;

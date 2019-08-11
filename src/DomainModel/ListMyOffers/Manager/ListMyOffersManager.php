@@ -86,11 +86,18 @@ class ListMyOffersManager implements ManagerInterface
                 ;
 
                 if ($offer->getPhoto() !== null) {
+                    $telegramClient->sendChatAction($userMessage->getChatId(), ChatAction::TYPING);
+                    usleep(5 * 100000);
+
                     $telegramClient->sendMessage(
                         $userMessage->getChatId(),
                         $text,
                         $collection
                     );
+
+                    $telegramClient->sendChatAction($userMessage->getChatId(), ChatAction::UPLOAD_PHOTO);
+                    sleep(1);
+
                     $telegramClient->sendPhoto(
                         $userMessage->getChatId(),
                         $offer->getPhoto(),

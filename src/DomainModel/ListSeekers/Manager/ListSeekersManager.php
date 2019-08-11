@@ -1,7 +1,8 @@
 <?php
 
-namespace App\DomainModel\ListMyRequests\Manager;
+namespace App\DomainModel\ListSeekers\Manager;
 
+use App\DomainModel\OfferPhoto\Repository\OfferPhotoRepositoryInterface;
 use App\DomainModel\RequestPhoto\Repository\RequestPhotoRepositoryInterface;
 use App\DomainModel\Screen\Manager\ManagerInterface;
 use App\DomainModel\Screen\Repository\ScreenRepositoryInterface;
@@ -10,10 +11,11 @@ use App\DomainModel\Screen\ValueObject\TextUserMessage;
 use App\DomainModel\Telegram\Client\ClientInterface;
 use App\DomainModel\Telegram\Collection\KeyboardCollection;
 use App\DomainModel\Telegram\Model\PhotoRequestModel;
+use App\DomainModel\Telegram\Model\ViewOfferModel;
 use App\Entity\PhotoRequest;
 use Longman\TelegramBot\ChatAction;
 
-class ListMyRequestsManager implements ManagerInterface
+class ListSeekersManager implements ManagerInterface
 {
     /**
      * @var ScreenRepositoryInterface
@@ -38,42 +40,11 @@ class ListMyRequestsManager implements ManagerInterface
      */
     public function invoke(AbstractUserMessage $userMessage, ClientInterface $telegramClient): ?string
     {
-        if ($userMessage->getText() === 'Back.' || $userMessage->getText() === '/back') {
-            return ManagerInterface::SCREEN_AG_SEEKERS;
+        if ($userMessage->getText() === 'Back') {
+            return ManagerInterface::SCREEN_AG_PHOTOGRAPHERS;
         }
 
-        $requests = $this->requestPhotoRepository->findByUsername($userMessage->getUserName());
-
-        if (strpos($userMessage->getText(), '/delete') === 0) {
-            $code = substr($userMessage->getText(), 7);
-            $filteredOffers = $requests->filter(function (PhotoRequest $photoOffer) use ($code) {
-                    return $photoOffer->getCode() === $code;
-                });
-
-            if ($filteredOffers->count() === 1) {
-                $request = $filteredOffers->first();
-                $request->setState(PhotoRequest::STATE_CANCELLED);
-
-                $this->requestPhotoRepository->save($request);
-
-                $telegramClient->sendMessage(
-                    $userMessage->getChatId(),
-                    'Oki, deleted the request `' . $code . '`.',
-                    new KeyboardCollection()
-                );
-
-                return null;
-            }
-
-            $telegramClient->sendMessage(
-                $userMessage->getChatId(),
-                'Oh, I did not find the request `' . $code . '`. Maybe you already deleted it?',
-                new KeyboardCollection()
-            );
-
-            return null;
-        }
-
+        $requests = $this->requestPhotoRepository->findAll();
         $text = '';
         $collection = new KeyboardCollection();
 
@@ -127,6 +98,8 @@ class ListMyRequestsManager implements ManagerInterface
         }
 
         return null;
+
+        return null;
     }
 
     public function navigateToTheScreen(
@@ -140,6 +113,6 @@ class ListMyRequestsManager implements ManagerInterface
 
     public static function getScreenName(): string
     {
-        return self::SCREEN_SHOW_MY_SEARCHES;
+        return self::SCREEN_LSIT_SEEKERS;
     }
 }
