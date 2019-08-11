@@ -1,17 +1,15 @@
 <?php
 
-namespace  App\DomainModel\Aggregators\Photographer\Manager;
+namespace  App\DomainModel\Aggregators\Subject\Manager;
 
-use App\DomainModel\OfferPhoto\Repository\OfferPhotoRepositoryInterface;
-use App\DomainModel\Screen\Collection\DashboardKeyboardCollection;
-use App\DomainModel\Screen\Collection\PhotographerKeyboardCollection;
+use App\DomainModel\Screen\Collection\SubjectKeyboardCollection;
 use App\DomainModel\Screen\Manager\ManagerInterface;
 use App\DomainModel\Screen\Repository\ScreenRepositoryInterface;
 use App\DomainModel\Screen\ValueObject\AbstractUserMessage;
 use App\DomainModel\Screen\ValueObject\TextUserMessage;
 use App\DomainModel\Telegram\Client\ClientInterface;
 
-class PhotographerScreenManager implements ManagerInterface
+class SubjectScreenManager implements ManagerInterface
 {
     /**
      * @var ScreenRepositoryInterface
@@ -27,22 +25,22 @@ class PhotographerScreenManager implements ManagerInterface
      */
     public function invoke(AbstractUserMessage $userMessage, ClientInterface $telegramClient): ?string
     {
-        if ($userMessage->getText() === PhotographerKeyboardCollection::OFFER_A_PHOTO) {
-            return ManagerInterface::SCREEN_OFFER_PHOTO;
+        if ($userMessage->getText() === SubjectKeyboardCollection::ASK_FOR_A_PHOTO) {
+            return ManagerInterface::SCREEN_ASK_PHOTO;
         }
 
-        if ($userMessage->getText() === PhotographerKeyboardCollection::MY_OFFERS) {
-            return ManagerInterface::SCREEN_SHOW_MY_OFFERS;
+        if ($userMessage->getText() === SubjectKeyboardCollection::MY_SEARCHES) {
+            return ManagerInterface::SCREEN_SHOW_MY_SEARCHES;
         }
 
-        if ($userMessage->getText() === PhotographerKeyboardCollection::TO_THE_DASHBOARD) {
+        if ($userMessage->getText() === SubjectKeyboardCollection::TO_THE_DASHBOARD) {
             return ManagerInterface::SCREEN_DASHBOARD;
         }
 
         $telegramClient->sendMessage(
             $userMessage->getChatId(),
-            "👋Hello fellow photographer! What would you like me to do for you?",
-            new PhotographerKeyboardCollection()
+            "👋Hello there photography seeker! What would you like me to do for you?",
+            new SubjectKeyboardCollection()
         );
 
         return null;
@@ -59,6 +57,6 @@ class PhotographerScreenManager implements ManagerInterface
 
     public static function getScreenName(): string
     {
-        return self::SCREEN_AG_PHOTOGRAPHERS;
+        return self::SCREEN_AG_SEEKERS;
     }
 }

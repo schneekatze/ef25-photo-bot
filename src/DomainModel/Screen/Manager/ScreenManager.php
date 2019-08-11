@@ -4,9 +4,12 @@ namespace App\DomainModel\Screen\Manager;
 
 use App\DomainModel\Agenda\Manager\AgendaManager;
 use App\DomainModel\Aggregators\Photographer\Manager\PhotographerScreenManager;
+use App\DomainModel\Aggregators\Subject\Manager\SubjectScreenManager;
 use App\DomainModel\Help\Manager\HelpManager;
 use App\DomainModel\ListMyOffers\Manager\ListMyOffersManager;
+use App\DomainModel\ListMyRequests\Manager\ListMyRequestsManager;
 use App\DomainModel\OfferPhoto\Manager\OfferPhotoManager;
+use App\DomainModel\RequestPhoto\Manager\RequestPhotoManager;
 use App\DomainModel\Screen\Repository\ScreenRepositoryInterface;
 use App\DomainModel\Screen\ValueObject\AbstractUserMessage;
 
@@ -27,7 +30,10 @@ class ScreenManager
         ListMyOffersManager $listMyOffersManager,
         HelpManager $helpManager,
         AgendaManager $agendaManager,
-        PhotographerScreenManager $photographerScreenManager
+        PhotographerScreenManager $photographerScreenManager,
+        SubjectScreenManager $subjectScreenManager,
+        RequestPhotoManager $requestPhotoManager,
+        ListMyRequestsManager $listMyRequestsManager
     ) {
         $this->screenRepository = $screenRepository;
 
@@ -38,6 +44,9 @@ class ScreenManager
             ManagerInterface::SCREEN_HELP => $helpManager,
             ManagerInterface::SCREEN_AGENDA => $agendaManager,
             ManagerInterface::SCREEN_AG_PHOTOGRAPHERS=> $photographerScreenManager,
+            ManagerInterface::SCREEN_AG_SEEKERS => $subjectScreenManager,
+            ManagerInterface::SCREEN_ASK_PHOTO => $requestPhotoManager,
+            ManagerInterface::SCREEN_SHOW_MY_SEARCHES => $listMyRequestsManager,
         ];
     }
 

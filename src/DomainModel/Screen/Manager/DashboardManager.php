@@ -38,11 +38,15 @@ class DashboardManager implements ManagerInterface
             return ManagerInterface::SCREEN_AGENDA;
         }
 
+        if ($userMessage->getText() === DashboardKeyboardCollection::FOR_SUBJECTS) {
+            return ManagerInterface::SCREEN_AG_SEEKERS;
+        }
+
         $telegramClient->sendMessage(
             $userMessage->getChatId(),
             "👋Welcome to *Eurofurence25 Photo Bot*📸!\n"
             . "My purpose is to connect photographers and their subjects. I'm no how affiliated with EF!\n\n"
-            . "So, let's get started! Select one of 3 options below. 🙂",
+            . "So, let's get started! Select one of 4 options below. 🙂",
             new DashboardKeyboardCollection()
         );
 

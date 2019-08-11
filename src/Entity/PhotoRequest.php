@@ -6,19 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Rych\Random\Random;
 
 /**
- * PhotoOffers
+ * PhotoRequests
  *
- * @ORM\Table(name="photo_offers", indexes={@ORM\Index(name="idx_photo_offers_state", columns={"state"})})
+ * @ORM\Table(name="photo_requests", indexes={@ORM\Index(name="idx_photo_requests_state", columns={"state"})})
  * @ORM\Entity
  */
-class PhotoOffer
+class PhotoRequest
 {
     const STATE_NEW = 'new';
     const STATE_INIT = 'init';
     const STATE_DESCRIPTION = 'description';
-    const STATE_TIME = 'time';
-    const STATE_LOCATION = 'location';
-    const STATE_PRICE = 'price';
     const STATE_CONFIRMATION = 'confirmation';
     const STATE_COMPLETE = 'complete';
     const STATE_CANCELLED = 'cancelled';
@@ -70,34 +67,10 @@ class PhotoOffer
     /**
      * @var string|null
      *
-     * @ORM\Column(name="location", type="text", nullable=true)
-     */
-    private $location;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="time", type="integer", nullable=true)
-     */
-    private $time;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="price", type="decimal", precision=10, scale=0, nullable=true)
-     */
-    private $price;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="photo_id", type="string", nullable=true)
+     * @ORM\Column(name="photo_id", type="text", nullable=true)
      */
     private $photo;
 
-    /**
-     * PhotoOffer constructor.
-     */
     public function __construct()
     {
         $this->code = (new Random())->getRandomString(6);
@@ -113,9 +86,9 @@ class PhotoOffer
 
     /**
      * @param int|null $id
-     * @return PhotoOffer
+     * @return PhotoRequest
      */
-    public function setId(?int $id): PhotoOffer
+    public function setId(?int $id): PhotoRequest
     {
         $this->id = $id;
 
@@ -132,9 +105,9 @@ class PhotoOffer
 
     /**
      * @param string|null $code
-     * @return PhotoOffer
+     * @return PhotoRequest
      */
-    public function setCode(?string $code): PhotoOffer
+    public function setCode(?string $code): PhotoRequest
     {
         $this->code = $code;
 
@@ -151,9 +124,9 @@ class PhotoOffer
 
     /**
      * @param string|null $state
-     * @return PhotoOffer
+     * @return PhotoRequest
      */
-    public function setState(?string $state): PhotoOffer
+    public function setState(?string $state): PhotoRequest
     {
         $this->state = $state;
 
@@ -170,9 +143,9 @@ class PhotoOffer
 
     /**
      * @param string|null $username
-     * @return PhotoOffer
+     * @return PhotoRequest
      */
-    public function setUsername(?string $username): PhotoOffer
+    public function setUsername(?string $username): PhotoRequest
     {
         $this->username = $username;
 
@@ -189,9 +162,9 @@ class PhotoOffer
 
     /**
      * @param int|null $chatId
-     * @return PhotoOffer
+     * @return PhotoRequest
      */
-    public function setChatId(?int $chatId): PhotoOffer
+    public function setChatId(?int $chatId): PhotoRequest
     {
         $this->chatId = $chatId;
 
@@ -208,68 +181,11 @@ class PhotoOffer
 
     /**
      * @param string|null $description
-     * @return PhotoOffer
+     * @return PhotoRequest
      */
-    public function setDescription(?string $description): PhotoOffer
+    public function setDescription(?string $description): PhotoRequest
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getLocation(): ?string
-    {
-        return $this->location;
-    }
-
-    /**
-     * @param string|null $location
-     * @return PhotoOffer
-     */
-    public function setLocation(?string $location): PhotoOffer
-    {
-        $this->location = $location;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getTime(): ?string
-    {
-        return $this->time;
-    }
-
-    /**
-     * @param string|null $time
-     * @return PhotoOffer
-     */
-    public function setTime(?string $time): PhotoOffer
-    {
-        $this->time = $time;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPrice(): ?string
-    {
-        return $this->price;
-    }
-
-    /**
-     * @param string|null $price
-     * @return PhotoOffer
-     */
-    public function setPrice(?string $price): PhotoOffer
-    {
-        $this->price = $price;
 
         return $this;
     }
@@ -284,9 +200,9 @@ class PhotoOffer
 
     /**
      * @param string|null $photo
-     * @return PhotoOffer
+     * @return PhotoRequest
      */
-    public function setPhoto(?string $photo): PhotoOffer
+    public function setPhoto(?string $photo): PhotoRequest
     {
         $this->photo = $photo;
 

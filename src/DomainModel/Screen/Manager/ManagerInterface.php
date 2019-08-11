@@ -8,12 +8,17 @@ use App\DomainModel\Telegram\Client\ClientInterface;
 interface ManagerInterface
 {
     const SCREEN_DASHBOARD = 'Dashboard';
-    const SCREEN_OFFER_PHOTO = 'OfferPhoto';
-    const SCREEN_SHOW_MY_OFFERS = 'ShowMyOffers';
     const SCREEN_HELP = 'Help';
     const SCREEN_AGENDA = 'Agenda';
 
+    const SCREEN_OFFER_PHOTO = 'OfferPhoto';
+    const SCREEN_SHOW_MY_OFFERS = 'ShowMyOffers';
+
+    const SCREEN_ASK_PHOTO = 'AskPhoto';
+    const SCREEN_SHOW_MY_SEARCHES = 'PhotoSearches';
+
     const SCREEN_AG_PHOTOGRAPHERS = 'Photographers';
+    const SCREEN_AG_SEEKERS = 'Seekers';
 
     public function invoke(AbstractUserMessage $userMessage, ClientInterface $telegramClient): ?string;
     public function navigateToTheScreen(
