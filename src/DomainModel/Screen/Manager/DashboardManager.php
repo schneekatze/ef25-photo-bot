@@ -67,7 +67,7 @@ class DashboardManager implements ManagerInterface
         $telegramClient->sendMessage(
             $userMessage->getChatId(),
             "👋Welcome to *Eurofurence25 Photo Bot*📸!\n"
-            . "My purpose is to connect photographers and their subjects. I'm no how affiliated with EF!\n\n"
+            . "My purpose is to connect photographers and people who want photos. I'm no how affiliated with EF!\n\n"
             . "So, let's get started! Select one of 4 options below. 🙂\n\n"
             . $offerFormattedText,
             new DashboardKeyboardCollection()

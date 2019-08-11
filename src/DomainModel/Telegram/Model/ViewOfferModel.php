@@ -35,7 +35,7 @@ EDIT;
             $you = ' (You)';
         }
 
-        $timeFormatted = date('d.m.Y H:i', $this->entity->getTime());
+        $timeFormatted = $this->entity->getTime() == 0 ? 'Any day!' : date('d.m.Y H:i', $this->entity->getTime());
 
         return <<<MODEL
 *Photographer$you*

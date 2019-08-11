@@ -86,6 +86,7 @@ class OfferPhotoRepository implements OfferPhotoRepositoryInterface
             ->andWhere('o.state = ?3')
             ->setParameter(1, $from)
             ->setParameter(2, $to)
+
             ->setParameter(3, PhotoOffer::STATE_COMPLETE);
 
         return new ArrayCollection(
