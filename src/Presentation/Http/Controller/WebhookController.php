@@ -74,9 +74,15 @@ class WebhookController
         }
 
         if (array_key_exists('photo', $inputData['message'])) {
+            $description = 'No other description were provided.';
+
+            if (array_key_exists('caption', $inputData['message'])) {
+                $description = $inputData['message']['caption'];
+            }
+
             return (new PhotoUserMessage(
                 $inputData['message']['chat']['id'], $inputData['message']['from']['username']
-            ))->setText($inputData['message']['caption'])
+            ))->setText($description)
               ->setPhoto($inputData['message']['photo'][1]['file_id']);
         }
 
